@@ -31,6 +31,14 @@ pnpm start                # sirve API + WS + cliente en PORT (3000)
 O con Docker: `docker build -t north-padel . && docker run -p 3000:3000 --env-file .env north-padel`.
 `DATABASE_URL` apunta al PostgreSQL de la VM; el esquema se crea solo al arrancar.
 
+### Deploy actual
+
+- URL: https://northpadel.becode.com.ar (Cloudflare proxy → Traefik de Coolify → contenedor).
+- Coolify: proyecto **Becode**, entorno **production**, app `northpadel` (build pack Dockerfile,
+  puerto 3000, healthcheck `/api/health`) + base `northpadel-db` (postgres:17-alpine en la misma VM).
+- Fuente: este repo (`becodeb/northpadel`, rama `main`). Cada push a `main` dispara el deploy por webhook.
+- Redeploy manual: `Deploy-CoolifyApp -Uuid <uuid de la app>` desde el helper de `coolify-conexion`.
+
 ## Tests y simulación
 
 ```bash
